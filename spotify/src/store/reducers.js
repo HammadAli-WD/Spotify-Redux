@@ -2,13 +2,16 @@ import C from './types';
 
 export default (state = {}, action) => {
     switch (action.type) {
-        case C.SET_SONGS:
+        case C.SET_ALBUMS:
             return {
                 ...state,
-                songs: {
-                    ...state.songs,
-                    list: action.payload
-                }
+                albums: action.payload,
+                loading: {
+                    ...state.loading,
+                    albums: false,
+                    albumInfo: true
+                },
+                albumInfo: null,
             }
         case C.SET_ALBUMS:
             return {

@@ -12,7 +12,7 @@ export const setSongs = (songs) => ({
   });
   
   export const setArtists = (artists) => ({
-    type: C.SET_ALBUMS,
+    type: C.SET_ARTISTS,
     payload: artists,
   });
   
