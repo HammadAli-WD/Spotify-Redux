@@ -1,30 +1,118 @@
-import React from 'react';
-import {NavDropdown, Nav, Navbar, Form, FormControl, Button} from 'react-bootstrap'
+import React from 'react'
+import {Link, withRouter } from 'react-router-dom';
+import {InputGroup, FormControl} from 'react-bootstrap';
 
-function NavBar(props) {
-    return(
-        <Navbar bg="light" expand="lg">
-  <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Link</Nav.Link>
-      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-      </NavDropdown>
-    </Nav>
-    <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-success">Search</Button>
-    </Form>
-  </Navbar.Collapse>
-</Navbar>
+//const SideNav = () => {
+class NavBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        searchString: "",
+        };
+    }
+
+    searchStringHandler = (e) => {
+        // this.setState({ searchString: e.currentTarget.value });
+        if (e.keyCode === 13) {
+          // WHEN ENTER KEY IS PRESSED
+          this.props.showSearchResult(this.state.searchString);
+        } else {
+          this.setState({ searchString: e.currentTarget.value });
+        }
+    };
+
+    clickHandler = (e) => {
+      this.setState({ searchString: e.currentTarget.value });
+      this.props.showSearchResult(this.state.searchString);
+  };
+
+    render(){
+    return (
+        <div className="col-2">
+          <nav
+            className="navbar navbar-expand-md navbar-white bg-navbar fixed-left justify-content-between"
+            id="sidebar"
+          >
+            <div className="nav-container">
+              <Link to='/' className="navbar-brand">
+                <img
+                  src="logo/Spotify_Logo.png"
+                  alt="Spotify_Logo"
+                  width="131"
+                  height="40"
+                />
+              </Link>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div className="navbar-nav">
+                  <ul>
+                    <li>
+                      <Link to='/' className="nav-item nav-link"
+                        ><i className="fa fa-home fa-lg"></i>&nbsp; Home
+                      </Link>
+                    </li>
+                    <li>
+                      <a className="nav-item nav-link" href="#"
+                        ><i className="fa fa-book-open fa-lg"></i>&nbsp; Your
+                        Library</a>
+                    </li>
+                    {this.props.location.pathname === '/'
+                    ?
+                    <li>
+                      <div className="input-group mt-3">
+                        <input
+                          type="text"
+                          className="form-control mb-2"
+                          id="searchField"
+                          placeholder="Search"
+                          aria-label="Search"
+                          aria-describedby="basic-addon2"
+                          onKeyDown={this.searchStringHandler}
+                          onChange={this.searchStringHandler}
+                          value={this.state.searchString}
+                        />
+                        <div
+                          className="input-group-append"
+                          style={{marginBottom: "4%"}}
+                        >
+                          <button
+                            className="btn btn-outline-secondary btn-sm"
+                            type="button"
+                            id="button-addon1"
+                            onClick={this.clickHandler}
+                          >
+                            GO
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                    : null
+                  }
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="nav-btn">
+              <button className="btn signup-btn" type="button">Sign Up</button>
+              <button className="btn login-btn" type="button">Login</button>
+              <a href="#">Cookie Policy</a> |
+              <a href="#"> Privacy</a>
+            </div>
+          </nav>
+        </div>
     )
 }
+}
 
-export default NavBar;
+export default withRouter(NavBar)
